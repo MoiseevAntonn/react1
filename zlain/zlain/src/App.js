@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 
 
 import {bindActionCreators} from 'redux'
-import * as incrementActions from './actions/IncrementActions'
+import {incrementNumberOfClick} from './actions/IncrementActions'
 import countState from './reducers/index'
 
 import Header from './Header';
@@ -37,7 +37,7 @@ class App extends Component {
   
   render() {
     console.log('data', this.state.data);
-    const {countState} = this.props.incrementActions;
+    const {countState} = this.props.incrementNumberOfClick;
     return (
         <div>
           
@@ -67,7 +67,7 @@ class App extends Component {
   renderUser=(user,index)=>{
     return (
         <div style={styles.noteTheme} key = {index}>
-          <Button children = '' onClick={()=>this.props.incrementActions}>
+          <Button children = '' onClick={()=>this.props.incrementNumberOfClick()}>
             {user.id} {user.first_name} {user.last_name} {user.department}
           </Button>
         </div>
@@ -101,9 +101,9 @@ class App extends Component {
 
   function mapDispatchToProps(dispatch){
     return{
-      incrementActions: bindActionCreators(incrementActions, dispatch)
+      incrementNumberOfClick: bindActionCreators(incrementNumberOfClick, dispatch)
   }
  }
 
-  export default connect(mapDispatchToProps)(App);
+  export default connect(null,mapDispatchToProps)(App);
 

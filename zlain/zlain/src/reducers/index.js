@@ -5,7 +5,7 @@ const initialState = {
 export default function countState(state = initialState,action){
 	switch (action.type){
 		case 'INCREMENT':
-			return {...state,numberOfClick: 1};
+			return {...state,numberOfClick: initialState.numberOfClick++};
 		default :
 			return state;
 	}
