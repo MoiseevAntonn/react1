@@ -3,10 +3,12 @@ import axios from 'axios';
 import GridList from '@material-ui/core/GridList';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import Button from '@material-ui/core/Button';
-import {createStore} from 'redux';
-import {Provider} from 'react-redux'
 import {connect} from 'react-redux'
 
+
+import {bindActionCreators} from 'redux'
+import * as incrementActions from './actions/IncrementActions'
+import countState from './reducers/index'
 
 import Header from './Header';
 
@@ -35,10 +37,10 @@ class App extends Component {
   
   render() {
     console.log('data', this.state.data);
-    console.log('click', this.state.numberOfClick);
+    const {countState} = this.props.incrementActions;
     return (
-      <Provider store={store}>
         <div>
+          
           <Header/>
           <div>
               <div>
@@ -56,10 +58,8 @@ class App extends Component {
               <GridList cellHeight={50}>
                   {this.state.data.map(this.renderUser)}
               </GridList>
-              
           </div>
         </div>
-      </Provider>
     );
   }
 
@@ -67,7 +67,7 @@ class App extends Component {
   renderUser=(user,index)=>{
     return (
         <div style={styles.noteTheme} key = {index}>
-          <Button children = '' onClick={()=>store.dispatch({type: 'INCREMENT'})}>
+          <Button children = '' onClick={()=>this.props.incrementActions}>
             {user.id} {user.first_name} {user.last_name} {user.department}
           </Button>
         </div>
@@ -99,26 +99,11 @@ class App extends Component {
     }
   }
 
-  const initialState = {count:0};
-
-  function counter(count=0,action,state=initialState){
-    switch (action.type){
-    case 'INCREMENT':
-      return count++
-    default:
-      return count
-    }
+  function mapDispatchToProps(dispatch){
+    return{
+      incrementActions: bindActionCreators(incrementActions, dispatch)
   }
+ }
 
-  let store = createStore(counter)
-
-  store.subscribe(()=>console.log(store.getState()))
-
-  const mapStateToProps = state => ({key: state.ale})
-
-  
-
-
-
-export default App;
+  export default connect(mapDispatchToProps)(App);
 

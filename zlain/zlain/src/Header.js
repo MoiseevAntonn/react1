@@ -1,21 +1,34 @@
 import React, {Component, PropTypes} from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import Badge from '@material-ui/core/Badge';
-import {mapStateToProp} from './App'
+
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import * as incrementActions from './actions/IncrementActions'
+import countState from './reducers/index'
 
 class Header extends Component {
 	
 	render(){
-		console.log('items', this.props.items);
 		return (
 			<div>
          	 	<Toolbar>
-           		 	<Badge children="ZLa" badgeContent={4} color="primary"/>
+           		 	<Badge children="ZLa" badgeContent={this.props.numberOfClick} color="primary"/>
           		</Toolbar>
         	</div>
 		);
 	}
 }
 
-export default Header;
+function mapStateToProps(state){
+    return{
+      numberOfClick: state.numberOfClick
+    }
+  }
+  
+ 
+
+
+
+export default connect(mapStateToProps)(Header);
+
